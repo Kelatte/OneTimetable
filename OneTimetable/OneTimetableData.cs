@@ -21,7 +21,31 @@ namespace Quicktype
         public Description Description { get; set; }
 
         [JsonProperty("data")]
-        public List<List<string>> Data { get; set; }
+        public Data Data { get; set; }
+    }
+
+    public partial class Data
+    {
+        [JsonProperty("Sunday")]
+        public List<string> Sunday { get; set; }
+
+        [JsonProperty("Monday")]
+        public List<string> Monday { get; set; }
+
+        [JsonProperty("Tuesday")]
+        public List<string> Tuesday { get; set; }
+
+        [JsonProperty("Wednesday")]
+        public List<string> Wednesday { get; set; }
+
+        [JsonProperty("Thursday")]
+        public List<string> Thursday { get; set; }
+
+        [JsonProperty("Friday")]
+        public List<string> Friday { get; set; }
+
+        [JsonProperty("Saturday")]
+        public List<string> Saturday { get; set; }
     }
 
     public partial class Description

@@ -13,22 +13,134 @@ namespace OneTimetable
 {
     public partial class MainForm : Form
     {
+        private string JsonDataPath = "data.txt";
+
+        private readonly int formThinWeith = 233;
+        private readonly int formWideWeith;
+
+        private Quicktype.OneTimetableData OneTimetableData;
+        List<List<string>> dayOrder;
+
         public MainForm()
         {
             InitializeComponent();
+
+            formWideWeith = Size.Width;
 #if !DEBUG
-            SetToDeskTop();
+            SetToDesktop();
 #endif
-            PictureBoxColor();
+            InitPictureBoxColorEvent();
+            InitAddClassEvent();
+
+            LoadData();
+            UpdataData();
+
+            SettingOpen = false;
         }
-        private void PictureBoxColor()
+
+        private void InitAddClassEvent()
         {
-            for (int i = 0; i < flowLayoutPanel2.Controls.Count; i++)
+            for (int i = 0; i < AddClassPanel.Controls.Count; i++)
             {
-                if (flowLayoutPanel2.Controls[i].GetType() == typeof(PictureBox))
+                AddClassPanel.Controls[i].Click += new System.EventHandler(SelectClass);
+            }
+        }
+
+        private void SelectClass(object sender, EventArgs e)
+        {
+
+            if (ClassBox.Items.Count >= 9)
+            {
+                return;
+            }
+            ClassBox.Items.Add((sender as Button).Text);
+
+            dayOrder[DayControl.SelectedIndex].Add((sender as Button).Text);
+
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                string json = System.IO.File.ReadAllText(JsonDataPath);
+                OneTimetableData = Quicktype.OneTimetableData.FromJson(json);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+            dayOrder = new List<List<string>> { OneTimetableData.Data.Monday, OneTimetableData.Data.Thursday,
+            OneTimetableData.Data.Wednesday,OneTimetableData.Data.Thursday,OneTimetableData.Data.Friday,
+            OneTimetableData.Data.Saturday, OneTimetableData.Data.Sunday};
+        }
+
+        private void UpdataData()
+        {
+            DateTime dateTime = DateTime.Now;
+            List<string> timetable = new List<string>();
+            switch (dateTime.DayOfWeek)
+            {
+                case DayOfWeek.Sunday:
+                    timetable = OneTimetableData.Data.Sunday;
+                    break;
+                case DayOfWeek.Monday:
+                    timetable = OneTimetableData.Data.Monday;
+                    break;
+                case DayOfWeek.Tuesday:
+                    timetable = OneTimetableData.Data.Tuesday;
+                    break;
+                case DayOfWeek.Wednesday:
+                    timetable = OneTimetableData.Data.Wednesday;
+                    break;
+                case DayOfWeek.Thursday:
+                    timetable = OneTimetableData.Data.Thursday;
+                    break;
+                case DayOfWeek.Friday:
+                    timetable = OneTimetableData.Data.Friday;
+                    break;
+                case DayOfWeek.Saturday:
+                    timetable = OneTimetableData.Data.Saturday;
+                    break;
+            }
+            ListShow(timetable);
+        }
+
+        private void ListShow(List<string> timetable)
+        {
+            for (int i = 0; i < TimetablePanel.Controls.Count; i++)
+            {
+                if (TimetablePanel.Controls[i].GetType() == typeof(Label))
+                    TimetablePanel.Controls[i].Text = "";
+            }
+
+            if (timetable.Count == 0)
+            {
+                if (TimetablePanel.Controls[0].GetType() == typeof(Label))
+                TimetablePanel.Controls[0].Text = "无课";
+            }
+
+            for (int i = 0,j = 0; i < timetable.Count && j < 9; i++)
+            {
+                if (TimetablePanel.Controls[i].GetType() == typeof(Label))
                 {
-                    flowLayoutPanel2.Controls[i].MouseEnter += new System.EventHandler(pictureBox_MouseEnter);
-                    flowLayoutPanel2.Controls[i].MouseLeave += new System.EventHandler(pictureBox_MouseLeave);
+                    TimetablePanel.Controls[i].Text = timetable[j++];
+
+                }
+
+            }
+        }
+
+        private void InitPictureBoxColorEvent()
+        {
+            for (int i = 0; i < SettingPanel.Controls.Count; i++)
+            {
+                if (SettingPanel.Controls[i].GetType() == typeof(PictureBox))
+                {
+                    SettingPanel.Controls[i].MouseEnter += new System.EventHandler(pictureBox_MouseEnter);
+                    SettingPanel.Controls[i].MouseLeave += new System.EventHandler(pictureBox_MouseLeave);
 
                 }
             }
@@ -36,7 +148,7 @@ namespace OneTimetable
 
 
         #region 将窗体钉在桌面上
-        private void SetToDeskTop()
+        private void SetToDesktop()
         {
             try
             {
@@ -136,18 +248,70 @@ namespace OneTimetable
             pictureBox.BackColor = System.Drawing.SystemColors.Control;
         }
 
-        private void ButtomExit_Click(object sender, EventArgs e)
+        private void ButtonExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void ButtomInfo_Click(object sender, EventArgs e)
+        private void ButtonInfo_Click(object sender, EventArgs e)
         {
-            string text = @"
-Made by Kelatte
-开源在Github : https://github.com/1205691775/OneTimetable
-";
+            string text = 
+@"Made by Kelatte
+开源在Github : https://github.com/1205691775/OneTimetable";
             MessageBox.Show(text);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private bool settingOpen;
+        private bool SettingOpen { get { return settingOpen; } 
+            set { settingOpen = value; Size = new Size(settingOpen ? formWideWeith : formThinWeith, Size.Height); } 
+        }
+
+        private void ButtonSettings_Click(object sender, EventArgs e)
+        {
+            SettingOpen = !SettingOpen;
+
+            if (settingOpen)
+            {
+                LoadClassBox(0);
+                DayControl.SelectedIndex = 0;
+            }
+        }
+        private void LoadClassBox(int index)
+        {
+
+
+            ClassBox.Items.Clear();
+
+            for (int i = 0; i < dayOrder[index].Count; i++)
+            {
+                ClassBox.Items.Add(dayOrder[index][i]);
+            }
+        }
+
+        private void ClearClass_Click(object sender, EventArgs e)
+        {
+            ClassBox.Items.Clear();
+            dayOrder[DayControl.SelectedIndex].Clear();
+        }
+
+        private void DayControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadClassBox(DayControl.SelectedIndex);
+        }
+
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+
+            string json = Quicktype.Serialize.ToJson(OneTimetableData);
+            System.IO.File.WriteAllText(JsonDataPath, json);
+
+            LoadData();
+            UpdataData();
         }
     }
 }
