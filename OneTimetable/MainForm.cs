@@ -145,7 +145,7 @@ namespace OneTimetable
         {
             string text = @"
 Made by Kelatte
-开源在Github
+开源在Github : https://github.com/1205691775/OneTimetable
 ";
             MessageBox.Show(text);
         }
