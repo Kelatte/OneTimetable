@@ -61,6 +61,9 @@ namespace Quicktype
 
         [JsonProperty("updateDate")]
         public string UpdateDate { get; set; }
+
+        [JsonProperty("size")]
+        public int Size { get; set; }
     }
 
     public partial class OneTimetableData

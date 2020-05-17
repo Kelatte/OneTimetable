@@ -66,6 +66,9 @@
             this.button12 = new System.Windows.Forms.Button();
             this.ClearClass = new System.Windows.Forms.Button();
             this.SaveButton = new System.Windows.Forms.Button();
+            this.SizeTrackBar = new System.Windows.Forms.TrackBar();
+            this.SizeChangeLabel = new System.Windows.Forms.Label();
+            this.SizeChangeButton = new System.Windows.Forms.Button();
             this.TimetablePanel.SuspendLayout();
             this.SettingPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ButtonInfo)).BeginInit();
@@ -73,11 +76,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.ButtonExit)).BeginInit();
             this.DayControl.SuspendLayout();
             this.AddClassPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SizeTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
             // TimetablePanel
             // 
-            this.TimetablePanel.AutoSize = true;
             this.TimetablePanel.Controls.Add(this.label1);
             this.TimetablePanel.Controls.Add(this.label2);
             this.TimetablePanel.Controls.Add(this.label3);
@@ -185,7 +188,6 @@
             // 
             // SettingPanel
             // 
-            this.SettingPanel.AutoSize = true;
             this.SettingPanel.Controls.Add(this.ButtonInfo);
             this.SettingPanel.Controls.Add(this.ButtonSettings);
             this.SettingPanel.Controls.Add(this.ButtonExit);
@@ -319,7 +321,6 @@
             // 
             // AddClassPanel
             // 
-            this.AddClassPanel.AutoSize = true;
             this.AddClassPanel.Controls.Add(this.button1);
             this.AddClassPanel.Controls.Add(this.button2);
             this.AddClassPanel.Controls.Add(this.button3);
@@ -481,11 +482,46 @@
             this.SaveButton.UseVisualStyleBackColor = true;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
+            // SizeTrackBar
+            // 
+            this.SizeTrackBar.Location = new System.Drawing.Point(248, 577);
+            this.SizeTrackBar.Maximum = 300;
+            this.SizeTrackBar.Minimum = 50;
+            this.SizeTrackBar.Name = "SizeTrackBar";
+            this.SizeTrackBar.Size = new System.Drawing.Size(327, 56);
+            this.SizeTrackBar.SmallChange = 25;
+            this.SizeTrackBar.TabIndex = 1;
+            this.SizeTrackBar.TickFrequency = 25;
+            this.SizeTrackBar.Value = 100;
+            // 
+            // SizeChangeLabel
+            // 
+            this.SizeChangeLabel.AutoSize = true;
+            this.SizeChangeLabel.Font = new System.Drawing.Font("微软雅黑", 13.91597F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SizeChangeLabel.Location = new System.Drawing.Point(252, 537);
+            this.SizeChangeLabel.Name = "SizeChangeLabel";
+            this.SizeChangeLabel.Size = new System.Drawing.Size(110, 31);
+            this.SizeChangeLabel.TabIndex = 29;
+            this.SizeChangeLabel.Text = "大小改变";
+            // 
+            // SizeChangeButton
+            // 
+            this.SizeChangeButton.Font = new System.Drawing.Font("微软雅黑", 13.91597F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SizeChangeButton.Location = new System.Drawing.Point(414, 625);
+            this.SizeChangeButton.Name = "SizeChangeButton";
+            this.SizeChangeButton.Size = new System.Drawing.Size(161, 40);
+            this.SizeChangeButton.TabIndex = 30;
+            this.SizeChangeButton.Text = "应用大小改变";
+            this.SizeChangeButton.UseVisualStyleBackColor = true;
+            this.SizeChangeButton.Click += new System.EventHandler(this.SizeChangeButton_Click);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(119F, 119F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(753, 845);
+            this.Controls.Add(this.SizeChangeButton);
+            this.Controls.Add(this.SizeChangeLabel);
+            this.Controls.Add(this.SizeTrackBar);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.ClearClass);
             this.Controls.Add(this.ClassBox);
@@ -497,6 +533,7 @@
             this.Name = "MainForm";
             this.Text = "一个课表";
             this.Activated += new System.EventHandler(this.MainForm_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
@@ -507,6 +544,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ButtonExit)).EndInit();
             this.DayControl.ResumeLayout(false);
             this.AddClassPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SizeTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -552,6 +590,9 @@
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.Button SaveButton;
+        private System.Windows.Forms.TrackBar SizeTrackBar;
+        private System.Windows.Forms.Label SizeChangeLabel;
+        private System.Windows.Forms.Button SizeChangeButton;
     }
 }
 
